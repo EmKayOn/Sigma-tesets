@@ -49,7 +49,7 @@ std::string CatColor::identifyFatherGene(){
         fatherGene = "B-dd";
     }else if(fatherColor == "Chocolate"){
         fatherGene = "bbD-";
-    }else if(fatherColor == "Lilic"){
+    }else if(fatherColor == "Lilac"){
         fatherGene = "bbdd";
     }else {
         fatherGene = "Unknown";
@@ -59,21 +59,33 @@ std::string CatColor::identifyFatherGene(){
 std::string CatColor::identifyMotherGene(){
     
     if(motherColor == "Red"){
-        motherGene = "D-O";
+        motherGene = "D-OO";
     }else if(motherColor == "Cream"){
-        motherGene = "ddO";
+        motherGene = "ddOO";
     }else if(motherColor == "Black"){
         motherGene = "B-D-";
     }else if(motherColor == "Blue"){
         motherGene = "B-dd";
     }else if(motherColor == "Chocolate"){
         motherGene = "bbD-";
-    }else if(motherColor == "Lilic"){
+    }else if(motherColor == "Lilac"){
         motherGene = "bbdd";
+    }else if(motherColor == "Black-Red Tortie"){
+        motherGene = "B-D-Oo";
+    }else if(motherColor == "Blue-Cream Tortie"){
+        motherGene = "B-ddOo";
+    }else if(motherColor == "Chocolate-Red Tortie"){
+        motherGene = "bbD-Oo";
+    }else if(motherColor == "Lilac-Cream Tortie"){
+        motherGene = "bbddOo";
     }else {
         motherGene = "Unknown";
     }
     return motherGene;
+}
+
+std::string CatColor::calculatePossibilities(){
+    fatherGene
 }
 
 CatColor::~CatColor(){}

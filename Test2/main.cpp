@@ -3,10 +3,11 @@
 #include <string.h>
 
 int main(){
-    std::string catColorFather;
+    std::string catColorFather, catColorMother;
     while (std::cin >> catColorFather)
     {
-        CatColor cat(catColorFather, "Red");
+        std::cin >> catColorMother;
+        CatColor cat(catColorFather, catColorMother);
         
         std::cout << cat.getFatherColor() <<std::endl;
 
@@ -14,6 +15,7 @@ int main(){
         
         std::cout << cat.getFatherColor() <<std::endl;
         std::cout << cat.identifyFatherGene() <<std::endl;
+        std::cout << cat.identifyMotherGene() <<std::endl;
     }
     return 0;
 }

@@ -22,6 +22,7 @@ public:
     std::string getMotherGene();
     std::string identifyFatherGene();
     std::string identifyMotherGene();
+    std::string calculatePossibilities();
     ~CatColor();
 };
 /////////////////////////////////////////////////
