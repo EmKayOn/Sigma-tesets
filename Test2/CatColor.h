@@ -11,7 +11,7 @@ private:
     std::string fatherGene, motherGene;
 
 public:
-    CatColor();
+    CatColor(std::string fatherColor,std::string motherColor);
     void setFatherColor(std::string fatherColor);
     void setMotherColor(std::string motherColor);
     void setFatherGene(std::string fatherGene);
@@ -20,7 +20,8 @@ public:
     std::string getMotherColor();
     std::string getFatherGene();
     std::string getMotherGene();
-    std::string identifyFatherGene(std::string color);
+    std::string identifyFatherGene();
+    std::string identifyMotherGene();
     ~CatColor();
 };
 /////////////////////////////////////////////////
