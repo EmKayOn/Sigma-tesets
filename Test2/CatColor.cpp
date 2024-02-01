@@ -36,7 +36,6 @@ std::string CatColor::getMotherGene(){
 }
 /////////////(Functions)///////////////////////////
 ///////////////////////////////////////////////////
-
 std::string CatColor::identifyFatherGene(){
     
     if(fatherColor == "Red"){
@@ -84,8 +83,61 @@ std::string CatColor::identifyMotherGene(){
     return motherGene;
 }
 
+
 std::string CatColor::calculatePossibilities(){
-    fatherGene
+
+    
+    identifyFatherGene();
+    identifyMotherGene();
+    if(motherColor.find("Tortie") != std::string::npos){
+
+    }
+
+}
+void CatColor::noRedPossibilities(){
+    double black, blue, chocolate, lilac;
+    if (motherColor == "Black")  // Mother is Black
+    {
+        if (fatherColor == "Black") // Father is Black
+        {
+            black = 1.000000000;
+            blue = 0.000000000;
+            chocolate = 0.000000000;
+            lilac = 0.000000000;
+        }else if (fatherColor == "Blue"){
+            blue = 0.875000000 * 0.75; // 0,65625
+            chocolate = 0.250000000 * (0.750000000 + (0.750000000 * 0.250000000)); // 0,234375
+            
+        }
+    }else{
+
+    }
+    
+    
 }
 
+void CatColor::RedPossibilities(){
+    double Cream, Red;
+    if (motherColor == "Red"){
+        if (fatherColor == "Red"){
+            Cream = 0.250000000 * 0.250000000;
+            Red = 1 - Cream;
+        }else if (fatherColor == "Cream"){
+            Cream = 0.250000000;
+            Red = 1 - 0.250000000;
+        }
+    }else if (motherColor == "Cream"){
+        if (fatherColor == "Red"){
+            Cream = 0.250000000;
+            Red = 1 - 0.250000000;
+        }else if (fatherColor == "Cream"){
+            Cream = 1.000000000;
+            Red = 0.000000000;
+        }
+    }
+    
+    
+    
+    
+}
 CatColor::~CatColor(){}
