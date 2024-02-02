@@ -20,7 +20,7 @@ private:
     std::string fatherColor, motherColor;
     std::string fatherGene, motherGene;
     std::vector<ColorProbability> Possibilities;
-
+    double dominantGene, recessiveGene, dominantextraGene, recessiveextraGene;
 public:
     CatColor(std::string fatherColor,std::string motherColor);
     void setFatherColor(std::string fatherColor);
@@ -34,10 +34,12 @@ public:
     std::string getFatherGene();
     std::string getMotherGene();
 
-    std::string calculatePossibilities();
+    void domRecGenePossibilities(char fGene, char mGene);
+    void differentGenePossibilities(char gene1, char gene2, char differentGene);
+    void calculatePossibilities();
+    void CatColor::tortieColor();
 
-    void noRedPossibilities();
-    void RedPossibilities();
+    std::string identifyColor(const std::string& gene);
     ~CatColor();
 };
 /////////////////////////////////////////////////
