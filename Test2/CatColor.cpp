@@ -6,34 +6,7 @@
 CatColor::CatColor(std::string fatherColor,std::string motherColor)
 :fatherColor(fatherColor),motherColor(motherColor) {}
 
-////////////////////////////////////////////////////
-//////////////// Setters ///////////////////////////
-void CatColor::setFatherColor(std::string fatherColor){
-    this->fatherColor = fatherColor;
-}
-void CatColor:: setMotherColor(std::string motherColor){
-    this->motherColor = motherColor;
-}
-void CatColor::setFatherGene(std::string fatherGene){
-    this->fatherGene = fatherGene;
-}
-void CatColor::setMotherGene(std::string motherGene){
-    this->motherGene = motherGene;
-}
-////////////////////////////////////////////////////
-//////////////// Getters ///////////////////////////
-std::string CatColor::getFatherColor(){
-    return fatherColor;
-}
-std::string CatColor::getMotherColor(){
-    return motherColor;
-}
-std::string CatColor::getFatherGene(){
-    return fatherGene;
-}
-std::string CatColor::getMotherGene(){
-    return motherGene;
-}
+
 /////////////(Functions)///////////////////////////
 ///////////////////////////////////////////////////
 std::string CatColor::identifyFatherGene(){
@@ -110,27 +83,75 @@ std::string CatColor::identifyColor(const std::string& gene) {
     }
 }
 ///////////////////////////////////////////////////////////////////////
-////takes first gene from bothe parents and calculate possibilities ///
+////takes first gene from bothe parents and return possibilities //////
 ////////////// Returns: dominantGene  recessiveGene ///////////////////
 ///////////////////////////////////////////////////////////////////////
-void CatColor::domRecGenePossibilities(char fGene, char mGene){
-    fGene = std::toupper(fGene);
-    mGene = std::toupper(mGene); // to make if (fGene == mGene) excute if one is lower case
-    if (fGene == mGene)
-    {
-        if (isupper(fGene)) // both dominant 
-        {
-            dominantGene = 0.75 + (0.75 * 0.25);
-            recessiveGene = 0.25 * 0.25;
-        }else{  //both recessiv
-            dominantGene = 0.0;
-            recessiveGene = 1.0;
-        }
-    }else { // if one gene is upper case and the secound is lower case
-        dominantGene = 0.75;
-        recessiveGene = 0.25;
+void CatColor::domRecGenePossibilities(char blackGene1, char blackGene2){
+    double blackProb1, blackProb2;
+    if (isupper(blackGene1) && isupper(blackGene2) ) {
+        blackProb1 = 0.75;  // B-
+        blackProb2 = 0.25;  // bb
+    } else if (islower(blackGene1) && islower(blackGene2)) {
+        blackProb1 = 1.0;   // bb
+        blackProb2 = 0.0;   // No B-
+    } else {
+        blackProb1 = 0.75;  // B-
+        blackProb2 = 0.25;  // bb
     }
 }
+////////////////////////////////////////////////////////////////
+////// Functions to generate children combinations///////////////
+////////////////////////////////////////////////////////////////
+std::vector<std::string> CatColor::generateChildrenCombinations() {
+    std::vector<std::string> childrenCombinations;
+    identifyMotherGene();
+    identifyFatherGene();
+    if (motherGene.size() > 3) //Tortie
+    {
+        std::string firstSetMother = motherGene.substr(0, 4);
+        std::string secoundSetMother = motherGene.substr(2, 4);
+        childrenCombinations.push_back(fatherGene);
+        childrenCombinations.push_back(secoundSetMother);
+        childrenCombinations.push_back(fatherGene + "Oo");
+        childrenCombinations.push_back(firstSetMother);
+        childrenCombinations.push_back(firstSetMother + "Oo");
+
+    }else
+    {
+        if (motherGene[2] == 'O' && fatherGene[2] == 'O') //bothe parent are red or Cream.
+        {
+            //Red, Cream.
+            childrenCombinations.push_back("D-OO");
+            childrenCombinations.push_back("ddOO");
+        }
+        else if (fatherGene[2] == 'O' || motherGene[2] == 'O')
+        {
+            childrenCombinations.push_back("B-D-");
+            childrenCombinations.push_back("B-D-Oo");
+            childrenCombinations.push_back("B-dd");
+            childrenCombinations.push_back("B-ddOo");
+            childrenCombinations.push_back("bbD-");
+            childrenCombinations.push_back("bbD-Oo");
+            childrenCombinations.push_back("bbdd");
+            childrenCombinations.push_back("bbddOo");
+        }
+        else
+        {
+            //Black, Blue, Chocolate, Lilac.
+            // Add combinations to the vector
+            childrenCombinations.push_back("B-D-");
+            childrenCombinations.push_back("B-dd");
+            childrenCombinations.push_back("bbD-");
+            childrenCombinations.push_back("bbdd");
+
+        }
+    }
+    
+    return childrenCombinations;
+}
+
+
+/*
 ///////////////////////////////////////////////////////////////////////////
 ////////Takes Three Genes (one is diffirerent) Calculate possibilities ////
 /////////////////// Returns: extraGene ////////////////////////////////////
@@ -159,12 +180,26 @@ void CatColor::differentGenePossibilities(char gene1, char gene2, char gene3) {
         std::cout<< "ERROR: can not identify genes."<<std::endl;
     }
 }
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ///////////////////////////////////////////////////////////////////
 ////////// Calculate the gene posibilities for each color /////////
 ///////////////////////////////////////////////////////////////////
-void CatColor::calculatePossibilities() {
+/*void CatColor::calculatePossibilities() {
     double domG1, domG2;
     double resG1, resG2;
     
@@ -216,8 +251,40 @@ void CatColor::calculatePossibilities() {
 }
 
 void CatColor::tortieColor(){
-    
-}
+    //mother to gene sets
+    std::string firstSetMother = motherGene.substr(0, 2);
+    std::string secondSetMother = motherGene.substr(2, 2);
+    //father two gene sets 
+    std::string firstSetFather = fatherGene.substr(0, 2);
+    std::string secondSetFather = fatherGene.substr(2, 2);
+
+    // Concatenate the two substrings
+    if (fatherGene == motherGene.substr(0,4))
+    {
+        if (isupper(fatherGene[0])) //all gene are dominant
+        {
+            Possibilities.push_back({fatherColor, 0.75 / 2});
+            Possibilities.push_back({identifyColor(secondSetMother + "Oo"), 0.5 / 2});
+            Possibilities.push_back({identifyColor(firstSetFather + secondSetMother), (0.75 * 0.5) / 2 });
+            if (fatherGene[0] == 'B'){
+                Possibilities.push_back({identifyColor( "bb" + secondSetMother) , 0.25 / 2 });
+                Possibilities.push_back({identifyColor( "bb" + secondSetMother + "Oo") , 0.25 * 0.5 / 2 });
+            }else{
+                Possibilities.push_back({identifyColor( "dd" + secondSetMother) , 0.25 / 2 });
+                Possibilities.push_back({identifyColor( "dd" + secondSetMother + "Oo") , 0.25 * 0.5 / 2 });
+            }
+        }else //all genes are ressiciv
+        {
+            Possibilities.push_back({"bbdd", 0.5 });//Lilac
+            Possibilities.push_back({"ddOo", 0.25});//Cream
+            Possibilities.push_back({"bbddOo", 0.25});//Lilac-Cream-Tortie
+        }   
+    }else //both are not equal
+    {
+        
+        
+    }
+}*/
 
 
 CatColor::~CatColor(){}

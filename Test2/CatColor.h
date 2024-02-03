@@ -23,24 +23,20 @@ private:
     double dominantGene, recessiveGene, dominantextraGene, recessiveextraGene;
 public:
     CatColor(std::string fatherColor,std::string motherColor);
-    void setFatherColor(std::string fatherColor);
-    void setMotherColor(std::string motherColor);
-    void setFatherGene(std::string fatherGene);
-    void setMotherGene(std::string motherGene);
-    std::string getFatherColor();
-    std::string getMotherColor();
+    
     std::string identifyFatherGene();
     std::string identifyMotherGene();
-    std::string getFatherGene();
-    std::string getMotherGene();
 
-    void domRecGenePossibilities(char fGene, char mGene);
+    void domRecGenePossibilities(char blackGene1, char blackGene2);
+    std::vector<std::string> generateChildrenCombinations();
     void differentGenePossibilities(char gene1, char gene2, char differentGene);
     void calculatePossibilities();
-    void CatColor::tortieColor();
 
     std::string identifyColor(const std::string& gene);
     ~CatColor();
+
+private:
+
 };
 /////////////////////////////////////////////////
 #endif // __catcolor__

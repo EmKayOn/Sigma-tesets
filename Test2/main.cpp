@@ -1,24 +1,18 @@
 #include "CatColor.h"
 #include <iostream>
-#include <string.h>
+#include <iomanip>
+#include <algorithm>
 
 int main() {
-    std::string femaleColor, maleColor;
+    // Example usage
+    std::string motherColor = "Lilac-Cream Tortie";
+    std::string fatherColor = "Black";
 
-    // Get input for female and male colors
-    //std::getline(std::cin, femaleColor);
-    //std::getline(std::cin, maleColor);
+    CatColor cat( fatherColor, motherColor);
+    std::vector<std::string> childrenCombinations = cat.generateChildrenCombinations();
 
-    // Create CatColor object
-    CatColor cat(femaleColor, maleColor);
-
-    // Calculate and print possibilities
-    char fatherGene = 'B';
-    char motherGene = 'b';
-
-    std::string probabilities = cat.calculatePossibilities(fatherGene, motherGene);
-    
-    std::cout << probabilities << std::endl;
-
+    for (const auto& combination : childrenCombinations) {
+        std::cout << combination << std::endl;
+    }
     return 0;
 }
