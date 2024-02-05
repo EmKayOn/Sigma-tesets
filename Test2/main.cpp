@@ -5,14 +5,11 @@
 
 int main() {
     // Example usage
-    std::string motherColor = "Lilac-Cream Tortie";
-    std::string fatherColor = "Black";
-
-    CatColor cat( fatherColor, motherColor);
-    std::vector<std::string> childrenCombinations = cat.generateChildrenCombinations();
-
-    for (const auto& combination : childrenCombinations) {
-        std::cout << combination << std::endl;
+    while (1)
+    {
+    CatColor cat;
+    cat.printOutPossibilities();
     }
+
     return 0;
 }

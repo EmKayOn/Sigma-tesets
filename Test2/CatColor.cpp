@@ -3,6 +3,7 @@
 #include <string>
 
 
+CatColor::CatColor(){}
 CatColor::CatColor(std::string fatherColor,std::string motherColor)
 :fatherColor(fatherColor),motherColor(motherColor) {}
 
@@ -78,7 +79,11 @@ std::string CatColor::identifyColor(const std::string& gene) {
         return "Chocolate-Red Tortie";
     } else if (gene == "bbddOo") {
         return "Lilac-Cream Tortie";
-    } else {
+    }else if (gene == "D-OO"){
+        return "Red";
+    }else if (gene == "ddOO"){
+        return "Cream";
+    }else {
         return "Unknown";
     }
 }
@@ -86,7 +91,8 @@ std::string CatColor::identifyColor(const std::string& gene) {
 ////takes first gene from bothe parents and return possibilities //////
 ////////////// Returns: dominantGene  recessiveGene ///////////////////
 ///////////////////////////////////////////////////////////////////////
-void CatColor::domRecGenePossibilities(char blackGene1, char blackGene2){
+void CatColor::domRecGenePossibilities(char blackGene1, char blackGene2,char dilutionGene1, char dilutionGene2){
+    
     double blackProb1, blackProb2;
     if (isupper(blackGene1) && isupper(blackGene2) ) {
         blackProb1 = 0.75;  // B-
@@ -98,7 +104,179 @@ void CatColor::domRecGenePossibilities(char blackGene1, char blackGene2){
         blackProb1 = 0.75;  // B-
         blackProb2 = 0.25;  // bb
     }
+
+    double dilutionProb1, dilutionProb2;
+    if (isupper(dilutionGene1) && isupper(dilutionGene2) ) {
+        dilutionProb1 = 0.75;  // D-
+        dilutionProb2 = 0.25;  // dd
+    } else if (islower(dilutionGene1) && islower(dilutionGene2)) {
+        dilutionProb1 = 1.0;   // dd
+        dilutionProb2 = 0.0;   // No D-
+    } else {
+        dilutionProb1 = 0.75;  // D-
+        dilutionProb2 = 0.25;  // dd
+    }
+    Possibilities.push_back({"B-D-", blackProb1 * dilutionProb1});
+    Possibilities.push_back({"B-dd", blackProb1 * dilutionProb2});
+    Possibilities.push_back({"bbD-", blackProb2 * dilutionProb1});
+    Possibilities.push_back({"bbdd", blackProb2 * dilutionProb2});
 }
+
+void CatColor::oneRedParrentPossibilities(char blackGene1,char dilutionGene1, char dilutionGene2){
+    
+    double blackProb1, blackProb2;
+    if (isupper(blackGene1))
+    {
+        blackProb1 = 0.75 + (0.5 * 0.25);
+        blackProb2 = 1 - blackProb1;
+    } else {
+        blackProb1 = 0.75;  // B-
+        blackProb2 = 0.25;  // bb
+    }
+
+    double dilutionProb1, dilutionProb2;
+    if (isupper(dilutionGene1) && isupper(dilutionGene2) ) {
+        dilutionProb1 = 0.75;  // D-
+        dilutionProb2 = 0.25;  // dd
+    } else if (islower(dilutionGene1) && islower(dilutionGene2)) {
+        dilutionProb1 = 0.0;   // No D-
+        dilutionProb2 = 1.0;   // dd
+    } else {
+        dilutionProb1 = 0.75;  // D-
+        dilutionProb2 = 0.25;  // dd
+    }
+    Possibilities.push_back({"B-D-", (blackProb1 * dilutionProb1) / 2});
+    Possibilities.push_back({"B-D-Oo", (blackProb1 * dilutionProb1 / 2)});
+    Possibilities.push_back({"B-dd", (blackProb1 * dilutionProb2) / 2});
+    Possibilities.push_back({"B-ddOo", (blackProb1 * dilutionProb2 / 2)});
+    Possibilities.push_back({"bbD-",( blackProb2 * dilutionProb1) / 2});
+    Possibilities.push_back({"bbD-Oo", (blackProb2 * dilutionProb1) / 2});
+    Possibilities.push_back({"bbdd", (blackProb2 * dilutionProb2) / 2});
+    Possibilities.push_back({"bbddOo", (blackProb2 * dilutionProb2) / 2});
+}
+
+void CatColor::tortieParentPossibilities(char blackGene1, char blackGene2,char dilutionGene1, char dilutionGene2){
+
+    double blackProb1, blackProb2;
+    if (isupper(blackGene1) && isupper(blackGene2) ) {
+        blackProb1 = 0.75;  // B-
+        blackProb2 = 0.25;  // bb
+    } else if (islower(blackGene1) && islower(blackGene2)) {
+        blackProb1 = 0.0;   // No B-
+        blackProb2 = 1.0;   // bb
+    } else {
+        blackProb1 = 0.75;  // B-
+        blackProb2 = 0.25;  // bb
+    }
+
+    double dilutionProb1, dilutionProb2;
+    if (isupper(dilutionGene1) && isupper(dilutionGene2) ) {
+        dilutionProb1 = 0.75;  // D-
+        dilutionProb2 = 0.25;  // dd
+    } else if (islower(dilutionGene1) && islower(dilutionGene2)) {
+        dilutionProb1 = 0.0;   // No D-
+        dilutionProb2 = 1.0;   // dd
+    } else {
+        dilutionProb1 = 0.75;  // D-
+        dilutionProb2 = 0.25;  // dd
+    }
+
+    std::string firstSetMother = motherGene.substr(0, 4);
+    std::string secoundSetMother = motherGene.substr(2, 4);
+
+
+
+    Possibilities.push_back({fatherGene, (blackProb1 * dilutionProb2) / 2});
+    Possibilities.push_back({secoundSetMother , dilutionProb2 / 4 });
+    Possibilities.push_back({fatherGene + "Oo", (blackProb1 * dilutionProb2) / 4 });
+    Possibilities.push_back({firstSetMother, (blackProb2 * dilutionProb2) / 2 });
+    Possibilities.push_back({firstSetMother + "Oo", (blackProb2 * dilutionProb2) / 4 });
+}
+
+void CatColor::twoRedParrentPossibilities(char dilutionGene1, char dilutionGene2){
+    double dilutionProb1, dilutionProb2;
+    if (isupper(dilutionGene1) && isupper(dilutionGene2))
+    {
+        dilutionProb1 = 0.75 + ( 0.75 * 0.25); // D-
+        dilutionProb2 = 1 - dilutionProb1;     // dd
+    }
+    else if (islower(dilutionGene1) && islower(dilutionGene2))
+    {
+        dilutionProb1 =  0.0;
+        dilutionProb2 =  1.0;
+    }
+    else
+    {
+        dilutionProb1 = 0.75;  // D-
+        dilutionProb2 = 0.25;  // dd
+    }
+    Possibilities.push_back({"D-OO", dilutionProb1});
+    Possibilities.push_back({"ddOO", dilutionProb2});
+}
+
+void CatColor::printOutPossibilities(){
+
+    std::getline(std::cin, motherColor);
+    std::getline(std::cin, fatherColor);
+    
+    identifyMotherGene();
+    identifyFatherGene();
+
+    if (motherColor.find("Tortie") != std::string::npos) 
+    {
+        tortieParentPossibilities(fatherGene[0], motherGene[0],fatherGene[2], motherGene[2]);
+    } 
+    else 
+    {
+    
+        
+        if ((fatherColor == "Red" || fatherColor == "Cream" ) && (motherColor == "Red" || fatherColor == "Cream"))
+        {
+            twoRedParrentPossibilities(motherGene[0], fatherGene[0]);
+        }
+        else if (fatherColor == "Red" || fatherColor == "Cream")
+        {
+            oneRedParrentPossibilities(motherGene[0],motherGene[2], fatherGene[0]);
+        }
+        else if (motherColor == "Cream" || motherColor == "Red" )
+        {
+            oneRedParrentPossibilities(fatherGene[0],fatherGene[2], motherGene[0]);
+        }
+        else if (fatherColor != "Red" && motherColor != "Red")//NO red parrent
+        {
+            domRecGenePossibilities(fatherGene[0], motherGene[0],fatherGene[2], motherGene[2]);
+        }
+        
+    
+    }
+    for (const auto& combination : Possibilities) {
+        std::cout << identifyColor(combination.color) << " " << combination.probability << std::endl;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ////////////////////////////////////////////////////////////////
 ////// Functions to generate children combinations///////////////
 ////////////////////////////////////////////////////////////////
