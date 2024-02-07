@@ -11,8 +11,15 @@
 struct ColorProbability {
     std::string color;
     double probability;
-};
 
+    // Compare by probability in descending order, then by color in alphabetic order
+    bool operator<(const ColorProbability& other) const {
+        if (probability != other.probability) {
+            return probability > other.probability;
+        }
+        return color < other.color;
+    }
+};
 
 class CatColor
 {
@@ -29,14 +36,15 @@ public:
     std::string identifyMotherGene();
 
     void domRecGenePossibilities(char blackGene1, char blackGene2,char dilutionGene1, char dilutionGene2);
-    void oneRedParrentPossibilities(char blackGene1,char dilutionGene1, char dilutionGene2);
+    void oneRedParrentPossibilities(char blackGene1,char dilutionGene1, char dilutionGene2, bool isFemale);
     void twoRedParrentPossibilities(char dilutionGene1, char dilutionGene2);
     void tortieParentPossibilities(char blackGene1, char blackGene2,char dilutionGene1, char dilutionGene2);
+    void OneRedOneTortiePossibilities(char blackGene1,char dilutionGene1, char dilutionGene2);
     void printOutPossibilities();
 
-    std::vector<std::string> generateChildrenCombinations();
-    void differentGenePossibilities(char gene1, char gene2, char differentGene);
-    void calculatePossibilities();
+
+
+
 
     std::string identifyColor(const std::string& gene);
     ~CatColor();

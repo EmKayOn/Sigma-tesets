@@ -1,5 +1,5 @@
 PROG = main.exe 
-SRC = main.cpp CatColor.cpp
+SRC = main.cpp
 CC= g++
 CFLAGS = -g
 LIBS = 
